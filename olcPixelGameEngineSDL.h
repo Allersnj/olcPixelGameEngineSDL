@@ -417,7 +417,7 @@ namespace olc
         PixelGameEngine();
 
     public:
-        olc::rcode	Construct(uint32_t screen_w, uint32_t screen_h, uint32_t pixel_w, uint32_t pixel_h, bool full_screen = false);
+        olc::rcode	Construct(uint32_t screen_w, uint32_t screen_h, uint32_t pixel_w, uint32_t pixel_h, bool full_screen = false, bool controller_support = false);
         olc::rcode	Start();
 
     public: // Override Interfaces
@@ -590,7 +590,6 @@ namespace olc
     public:
     	struct SDLSettings
     	{
-    		bool controllerSupport = false;
     		int windowX = SDL_WINDOWPOS_UNDEFINED;
     		int windowY = SDL_WINDOWPOS_UNDEFINED;
     
@@ -1075,13 +1074,14 @@ namespace olc
         olc::PGEX::pge = this;
     }
 
-    olc::rcode PixelGameEngine::Construct(uint32_t screen_w, uint32_t screen_h, uint32_t pixel_w, uint32_t pixel_h, bool full_screen)
+    olc::rcode PixelGameEngine::Construct(uint32_t screen_w, uint32_t screen_h, uint32_t pixel_w, uint32_t pixel_h, bool full_screen, bool controller_support)
     {
         nScreenWidth = screen_w;
         nScreenHeight = screen_h;
         nPixelWidth = pixel_w;
         nPixelHeight = pixel_h;
         bFullScreen = full_screen;
+        controllerSupport = controller_support;
 
         fPixelX = 2.0f / (float)(nScreenWidth);
         fPixelY = 2.0f / (float)(nScreenHeight);
@@ -2099,7 +2099,6 @@ namespace olc
 
     void PixelGameEngine::SetEngineSDLSettings(const SDLSettings& settings)
     {
-        controllerSupport = settings.controllerSupport;
         nWindowX = settings.windowX;
         nWindowY = settings.windowY;
         initFlags = settings.initFlags;
