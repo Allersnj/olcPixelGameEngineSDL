@@ -133,7 +133,7 @@
 
     Author
     ~~~~~~
-    David Barr, aka javidx9, ©OneLoneCoder 2018, 2019
+    David Barr, aka javidx9, Â©OneLoneCoder 2018, 2019
 */
 
 //////////////////////////////////////////////////////////////////////////////////////////
@@ -1957,6 +1957,21 @@ namespace olc
 
         ShutdownSDL();
     }
+    
+#ifdef _WIN32
+	// Thanks @MaGetzUb for this, which allows sprites to be defined
+	// at construction, by initialising the GDI subsystem
+	static class GDIPlusStartup
+	{
+	public:
+		GDIPlusStartup()
+		{
+			Gdiplus::GdiplusStartupInput startupInput;
+			ULONG_PTR	token;
+			Gdiplus::GdiplusStartup(&token, &startupInput, NULL);
+		};
+	} gdistartup;
+#endif
 
     void PixelGameEngine::olc_ConstructFontSheet()
     {
